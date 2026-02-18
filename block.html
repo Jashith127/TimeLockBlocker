@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Blocked — Time Lock Blocker</title>
+  <style>
+    :root {
+      --g:    #39ff14;
+      --bg:   #090e09;
+      --bg2:  #0d110d;
+      --bg3:  #101410;
+      --bor:  #1a3318;
+      --dim:  #1a5510;
+      --muted:#2a7a1a;
+      --red:  #e03040;
+      --font: 'Courier New','Lucida Console',monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--g);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* grid */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        linear-gradient(rgba(57,255,20,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57,255,20,0.02) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+    /* scanlines */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(0,0,0,0.09) 3px, rgba(0,0,0,0.09) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .card {
+      position: relative;
+      background: var(--bg2);
+      border: 1px solid var(--bor);
+      width: min(600px, 92vw);
+      padding: 38px 36px 32px;
+      text-align: center;
+    }
+    .card-label {
+      position: absolute;
+      top: 11px; left: 13px;
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.14em;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--red);
+      color: #fff;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      padding: 4px 13px;
+      margin-bottom: 14px;
+    }
+    .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #fff; }
+
+    .logo {
+      width: 76px; height: 76px;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 0 8px rgba(57,255,20,0.4));
+      margin: 0 auto 18px;
+      display: block;
+      animation: float 3.5s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+    h1 {
+      font-size: clamp(20px, 3.6vw, 26px);
+      letter-spacing: 0.18em;
+      margin-bottom: 6px;
+    }
+
+    .domain-line {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 24px;
+      word-break: break-all;
+    }
+    .domain-value { color: #4ecb2a; }
+
+    .timer-box {
+      background: var(--bg3);
+      border: 1px solid var(--bor);
+      display: inline-block;
+      padding: 16px 44px;
+      margin-bottom: 24px;
+      min-width: 240px;
+    }
+    .t-label {
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.16em;
+      margin-bottom: 10px;
+    }
+    .t-display {
+      font-size: clamp(32px, 5.5vw, 42px);
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      color: var(--g);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .message {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.8;
+      letter-spacing: 0.04em;
+      margin-bottom: 20px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 3px;
+      background: var(--bor);
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--g);
+      transition: width 1s linear;
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="card-label">// ACCESS DENIED</div>
+
+  <div class="badge"><div class="badge-dot"></div>BLOCKED</div>
+
+  <img src="logo.png" class="logo" alt="Time Lock Blocker hourglass"/>
+
+  <h1>TIME LOCK ACTIVE</h1>
+
+  <div class="domain-line">
+    Attempted: <span class="domain-value" id="domValue"></span>
+  </div>
+
+  <div class="timer-box">
+    <div class="t-label">// TIME REMAINING</div>
+    <div class="t-display" id="tDisp">--:--:--</div>
+  </div>
+
+  <div class="message">
+    This site has been locked by Time Lock Blocker.<br/>
+    Focus. The timer will release when it expires.
+  </div>
+
+  <div class="progress-track">
+    <div class="progress-fill" id="pFill" style="width:100%"></div>
+  </div>
+</div>
+<script src="block.js"></script>
+</body>
+</html>

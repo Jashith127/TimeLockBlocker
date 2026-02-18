@@ -1,0 +1,39 @@
+{
+  "manifest_version": 2,
+  "name": "Time Lock Blocker",
+  "version": "1.0.0",
+  "description": "Block distracting websites for a set duration. Set a timer and stay focused — no bypass, no cancel. Includes PIN protection and a persistent block list.",
+  "author": "Time Lock Blocker",
+  "homepage_url": "https://github.com/timelock-blocker/timelock-blocker",
+  "icons": {
+    "48": "logo.png",
+    "96": "logo.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "timelock-blocker@extension",
+      "strict_min_version": "91.0"
+    }
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "logo.png",
+    "default_title": "Time Lock Blocker"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "storage",
+    "tabs",
+    "<all_urls>"
+  ],
+  "web_accessible_resources": [
+    "block.html",
+    "block.js",
+    "logo.png"
+  ]
+}
